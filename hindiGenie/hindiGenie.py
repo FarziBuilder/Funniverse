@@ -4,10 +4,10 @@ import discord
 import requests
 import openai
 
-questions = ["FIRST question what character do you want in the bot huh! Just tell me **Shahrukh Khan as Devdas**, **Your dog Rio?**, **A Cheese which talks** ", "Ohhh interesting, NOW tell me everything about this character. His personality, his jokes, who are his friends EVERYTHING", "Thank you! Now, what name do you want for the bot!! **Devdas**,**Stark**"]  # specify your questions here
+questions = ["Bhai kuch bhi maango abhi laakar dunga *Meri girlfriend Ruby Roy,Modiji The Leader, CarryMinati*", "Bhai yaar, ab mujhei sab kuch batao uskei baarei mai. Uski personality, uskei dost, uskei dialogue. Ussey tum baat karna kaise chahtei ho?"]  # specify your questions here
 
-bot_token = "MTA1MjE3NTM5NzEyNDU3OTM3OA.Gq0Bre.6vbjjRbQtKa9Ox3WmzQc_hQVVYdUvg2vsehJHo"
-openai.api_key = "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"
+bot_token = "MTA1Mjg3OTUxMzYyMjY4Nzc0NQ.GWpsVG.FhyHGuiKc9_WfjpZwJRO7IeFsN-79RfCT6G3Z4"
+openai.api_key = "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"
 
 client = discord.Client(intents=discord.Intents.all())
 
@@ -31,7 +31,7 @@ async def on_message(message):
         #print(chat_log)
     if message.author.bot: return
     
-    await message.channel.send("Ok comrade, answer my questions amazingly and I pinki promise I'll give you a bot.\n----------------------------")
+    await message.channel.send("Om namo Shivaah! Batao kaisa bot chahiyei tumhei!.\n----------------------------")
     
     answers = []
     for question in questions:
@@ -41,7 +41,9 @@ async def on_message(message):
     
     #promper = f'Generate a 800-word long detailed GPT3 prompt which gives detailed description of {answers[0]}. Describe it lengthly and in great detail. Talk and reply like {answers[0]}.{answers[1]}.Give 6 of the dialogues of {answers[0]} as well'
     
-    promper = f'Generate a 800-word long detailed GPT3 prompt which gives detailed description in first person conversation mode of {answers[0]}.Describe lengthly and in great detail. Talk and reply like {answers[0]}.{answers[1]}.'
+    check2 = await message.channel.send("*Ruk jao thoda, sabr kar lo*")
+    
+    promper = f'Generate a 800-word long detailed GPT3 prompt in hindi (written in english letters) which gives detailed description in first person conversation mode of {answers[0]}.Describe lengthly and in great detail in hindi (written in english letters) . Talk and reply in hindi (written in english letters) like {answers[0]}.{answers[1]}.'
     
     response = openai.Completion.create(
                 engine="text-davinci-003",
@@ -49,9 +51,11 @@ async def on_message(message):
                 max_tokens=1212,
                 n=1,
                 temperature=1,
-                frequency_penalty=0.3,
+                frequency_penalty=0.6,
                 #stop=["3"]
             ) 
+    
+    
     
     response2 = openai.Completion.create(
                 engine="text-davinci-003",
@@ -59,7 +63,7 @@ async def on_message(message):
                 max_tokens=1212,
                 n=1,
                 temperature=0.6,
-                frequency_penalty=0.3,
+                frequency_penalty=0.6,
                 #stop=["kpl"]
             ) 
     
@@ -76,7 +80,7 @@ async def on_message(message):
         if x['username'] == "None":
             x['username'] = str(message.author)
             x['prompt'] = bing 
-            x['name'] = answers[2]
+            x['name'] = answers[0]
             LINK = x['link']
             checkurl = "https://api.sheety.co/2886a651e9ccce8cf7c08c476ae384c2/botbaba/sheet1/" + str(x['id'])
             body = {
@@ -86,7 +90,9 @@ async def on_message(message):
             y = 1
             break
         if y ==1 : break    
-    await message.channel.send(f'{LINK}\nYoohoo! your bot is ready. Go add it to any server and talk to it.')
+   
+    await check2.delete()
+    await message.channel.send(f'{LINK}\nBan gaya na? Ab jao bacha baat karo ussey aur SABKO batao!')
     writers[message.author] = "1"
     print(answers)
     
